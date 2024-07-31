@@ -16,7 +16,7 @@ const (
 // App is the external interface to the application. This holds some of the global resources and states.
 type App interface {
 	Config() config.Config
-	Log() *applog
+	Log() Log
 	Ctx() context.Context
 	SetCtx(ctx context.Context)
 }
@@ -24,7 +24,7 @@ type App interface {
 // app the actual internal data.
 type app struct {
 	cfg config.Config
-	log *applog         // Logger for the whole application
+	log Log             // Logger for the whole application
 	ctx context.Context // wails context
 }
 
@@ -42,12 +42,15 @@ func Get() App {
 	}
 	_app = &app{
 		cfg: config.Get(),
+		log: NewConsoleLogger(),
 	}
 
 	err := db.Init(_app.Config().DatabaseDir(), _app.Config().DatabaseDriverName(), _app.Config().DataSourceName())
 	if err != nil {
 		panic(fmt.Errorf(errorFormatGet, err))
 	}
+
+	_app.Log().Wails().Info("Application started...")
 
 	return _app
 }
@@ -58,7 +61,7 @@ func (a *app) Config() config.Config {
 }
 
 // Log returns a pointer to the logging object.
-func (a *app) Log() *applog {
+func (a *app) Log() Log {
 	return a.log
 }
 

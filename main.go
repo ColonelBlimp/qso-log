@@ -8,5 +8,5 @@ import (
 )
 
 func main() {
-	wails.Run(app.Get())
+	wails.Run(app.Get()) //nolint:errcheck
 }

@@ -12,18 +12,18 @@ type Logger struct {
 }
 
 func NewConsoleLogger(prefix string) *Logger {
-	l := &Logger{}
-	l.Logger = log.New(os.Stdout, l.prefix(prefix), log.Ldate|log.Ltime|log.Llongfile)
-	return l
+	return &Logger{
+		Logger: log.New(os.Stdout, buildPrefix(prefix), log.Ldate|log.Ltime|log.Llongfile),
+	}
 }
 
 func NewFileLogger(prefix string, f *os.File) *Logger {
-	l := &Logger{}
-	l.Logger = log.New(f, l.prefix(prefix), log.Ldate|log.Ltime|log.Llongfile)
-	return l
+	return &Logger{
+		Logger: log.New(f, buildPrefix(prefix), log.Ldate|log.Ltime|log.Llongfile),
+	}
 }
 
-func (l *Logger) prefix(prefix string) string {
+func buildPrefix(prefix string) string {
 	if prefix == "" {
 		return prefix
 	}

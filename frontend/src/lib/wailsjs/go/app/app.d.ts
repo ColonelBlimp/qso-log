@@ -8,6 +8,6 @@ export function Config():Promise<config.Config>;
 
 export function Ctx():Promise<context.Context>;
 
-export function Log():Promise<app.applog>;
+export function Log():Promise<app.Log>;
 
 export function SetCtx(arg1:context.Context):Promise<void>;

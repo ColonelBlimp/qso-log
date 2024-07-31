@@ -6,6 +6,7 @@ import (
 	"embed"
 	"fmt"
 	"github.com/wailsapp/wails/v2"
+	"github.com/wailsapp/wails/v2/pkg/logger"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
 	"github.com/wailsapp/wails/v2/pkg/options/windows"
@@ -36,11 +37,10 @@ func Run(application app.App) error {
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
-
-		//		Logger:             app.App().Log().Wails(),
-		//		LogLevel:           logger.INFO,
-		//		LogLevelProduction: logger.ERROR,
-		OnStartup: startup,
+		Logger:             application.Log().Wails(),
+		LogLevel:           logger.INFO,
+		LogLevelProduction: logger.INFO,
+		OnStartup:          startup,
 		//		OnDomReady:    domReady,
 		OnShutdown: shutdown,
 		//		OnBeforeClose: beforeClose,
