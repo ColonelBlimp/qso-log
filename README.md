@@ -10,3 +10,6 @@ An Amateur Radio QSO loggging application, which is modern looking, simple and e
 - Tailwindcss
 - Vite
 
+# Go
+
+- go get -u github.com/mattn/go-sqlite3@latest

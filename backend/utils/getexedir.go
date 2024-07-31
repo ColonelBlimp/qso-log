@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 )
 
-const errorFormatGetExeDir = "utils.GetExeDir: %w"
+const errorFormatGetExeDir = "utils.GetExeDir: error determining the executable's directory: %w"
 
 // GetExeDir returns the absolute path of the executable.
 func GetExeDir() (string, error) {

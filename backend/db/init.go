@@ -6,6 +6,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	_ "github.com/mattn/go-sqlite3"
 	"os"
 	"qso-log/backend/utils"
 )
@@ -40,11 +41,6 @@ func Init(databaseDir, driverName, dataSourceName string) error {
 	}
 
 	err = dbConn.Ping()
-	if err != nil {
-		return fmt.Errorf(errorFormatInit, err)
-	}
-
-	_, err = dbConn.Exec("PRAGMA foreign_keys=on")
 	if err != nil {
 		return fmt.Errorf(errorFormatInit, err)
 	}

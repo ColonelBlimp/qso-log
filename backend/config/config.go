@@ -58,7 +58,7 @@ func Get() Config {
 
 	workingDir, err := utils.GetExeDir()
 	if err != nil {
-		panic(fmt.Errorf("config.Load: error determining the executable's directory: %w", err))
+		panic(fmt.Errorf("config.Get: %w", err))
 	}
 
 	defaultConfig(workingDir)
@@ -80,7 +80,9 @@ func defaultConfig(workingDir string) {
 	}
 	viper.SetDefault(keyDatabaseDir, path)
 	viper.SetDefault(keyDatabaseDriver, defaultValueDatabaseDriver)
-	viper.SetDefault(keyDatabaseDSN, filepath.Join(viper.GetString(keyDatabaseDir), defaultDatabaseFilename))
+
+	// See https://github.com/mattn/go-sqlite3?tab=readme-ov-file#connection-string parameters.
+	viper.SetDefault(keyDatabaseDSN, fmt.Sprintf("%s?_fk=true", filepath.Join(viper.GetString(keyDatabaseDir), defaultDatabaseFilename)))
 }
 
 func populateConfig() Config {

@@ -4,7 +4,9 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"qso-log/backend/config"
+	"qso-log/backend/db"
 )
 
 // App is the external interface to the application. This holds some of the global resources and states.
@@ -29,13 +31,18 @@ var _app App
 // Subsequent calls returns the pointer to the previously initialized application.
 //
 // The initialization process is: initialize configuration, initialize logging, initialize database and initialize i18n.
-// Before logging is initialized, errors are handle by panic() and not logged.
+// Errors are handle by panic().
 func Get() App {
 	if _app != nil {
 		return _app
 	}
 	_app = &app{
 		cfg: config.Get(),
+	}
+
+	err := db.Init(_app.Config().DatabaseDir(), _app.Config().DatabaseDriverName(), _app.Config().DataSourceName())
+	if err != nil {
+		panic(fmt.Errorf("app.Get: %w", err))
 	}
 
 	return _app
