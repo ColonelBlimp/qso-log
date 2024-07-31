@@ -9,6 +9,10 @@ import (
 	"qso-log/backend/db"
 )
 
+const (
+	errorFormatGet = "app.Get: %w"
+)
+
 // App is the external interface to the application. This holds some of the global resources and states.
 type App interface {
 	Config() config.Config
@@ -42,7 +46,7 @@ func Get() App {
 
 	err := db.Init(_app.Config().DatabaseDir(), _app.Config().DatabaseDriverName(), _app.Config().DataSourceName())
 	if err != nil {
-		panic(fmt.Errorf("app.Get: %w", err))
+		panic(fmt.Errorf(errorFormatGet, err))
 	}
 
 	return _app
