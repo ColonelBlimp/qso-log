@@ -6,6 +6,6 @@ import (
 	wailsLogger "github.com/wailsapp/wails/v2/pkg/logger"
 )
 
-type Log struct {
+type applog struct {
 	wails wailsLogger.Logger
 }

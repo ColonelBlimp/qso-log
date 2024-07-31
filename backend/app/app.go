@@ -8,12 +8,14 @@ import (
 )
 
 type App interface {
-	Config() config.AppConfig
+	Config() config.Config
+	Log() *applog
 	Ctx() context.Context
 }
 
 type app struct {
-	config config.AppConfig
+	config config.Config
+	log    *applog         // Logger for the whole application
 	ctx    context.Context // wails context
 }
 
@@ -25,16 +27,24 @@ func Init() (*app, error) {
 		return _app, nil
 	}
 	_app = &app{
-		config: config.Load(),
+		config: config.Get(),
 	}
 
 	return _app, nil
 }
 
-func (a *app) Config() config.AppConfig {
+func (a *app) Config() config.Config {
 	return a.config
+}
+
+func (a *app) Log() *applog {
+	return a.log
 }
 
 func (a *app) Ctx() context.Context {
 	return a.ctx
+}
+
+func (a *app) SetCtx(ctx context.Context) {
+	a.ctx = ctx
 }

@@ -2,7 +2,9 @@
 
 package main
 
-import "qso-log/backend/wails"
+import (
+	"qso-log/backend/wails"
+)
 
 func main() {
 	wails.Run()

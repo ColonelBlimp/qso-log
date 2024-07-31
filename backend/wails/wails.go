@@ -21,8 +21,7 @@ func Run() {
 	}
 
 	opts := &options.App{
-		Title: app.Config().Title(),
-
+		Title:             app.Config().Title(),
 		Width:             1024, // 16:10
 		Height:            640,  // 16:10
 		DisableResize:     false,
