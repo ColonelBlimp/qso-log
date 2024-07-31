@@ -4,6 +4,7 @@ package wails
 
 import (
 	"embed"
+	"fmt"
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
@@ -14,14 +15,9 @@ import (
 //go:embed all:assets
 var assets embed.FS
 
-func Run() {
-	app, err := app.Init()
-	if err != nil {
-		panic(err)
-	}
-
+func Run(application app.App) error {
 	opts := &options.App{
-		Title:             app.Config().Title(),
+		Title:             application.Config().Title(),
 		Width:             1024, // 16:10
 		Height:            640,  // 16:10
 		DisableResize:     false,
@@ -36,9 +32,7 @@ func Run() {
 		AlwaysOnTop:       false,
 		BackgroundColour:  &options.RGBA{R: 255, G: 255, B: 255, A: 255},
 		// RGBA:              &options.RGBA{},
-		Assets:        nil,
-		AssetsHandler: nil,
-		Menu:          nil,
+		Menu: nil,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
@@ -51,7 +45,7 @@ func Run() {
 		OnShutdown: shutdown,
 		//		OnBeforeClose: beforeClose,
 		Bind: []interface{}{
-
+			application,
 			//NewBinding(),
 			//tray.Tray(),
 			//local.Service(),
@@ -88,7 +82,9 @@ func Run() {
 		},
 	}
 
-	if err = wails.Run(opts); err != nil {
-		panic(err)
+	if err := wails.Run(opts); err != nil {
+		return fmt.Errorf("error while starting Wails: %w", err)
 	}
+
+	return nil
 }

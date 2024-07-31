@@ -29,6 +29,7 @@ const (
 	defaultDatabaseFilename      = "data.db"
 )
 
+// Config the interface to the application's configuration.
 type Config interface {
 	IsDevMode() bool
 	Title() string
@@ -37,6 +38,7 @@ type Config interface {
 	DataSourceName() string
 }
 
+// config the actual internal data.
 type config struct {
 	isDevMode          bool
 	title              string
@@ -46,10 +48,10 @@ type config struct {
 }
 
 // _config is our internal variable.
-var _config *config
+var _config Config
 
 // Get the application's configuration.
-func Get() *config {
+func Get() Config {
 	if _config != nil {
 		return _config
 	}
@@ -81,7 +83,7 @@ func defaultConfig(workingDir string) {
 	viper.SetDefault(keyDatabaseDSN, filepath.Join(viper.GetString(keyDatabaseDir), defaultDatabaseFilename))
 }
 
-func populateConfig() *config {
+func populateConfig() Config {
 	return &config{
 		isDevMode:          viper.GetBool(keyIsDevMode),
 		title:              viper.GetString(keyApplicationTitle),
@@ -101,14 +103,17 @@ func (c *config) Title() string {
 	return c.title
 }
 
+// DatabaseDir returns the absolute path to the directory containing the database file.
 func (c *config) DatabaseDir() string {
 	return c.databaseDir
 }
 
+// DatabaseDriverName returns the database driver name. Default is 'sqlite3'.
 func (c *config) DatabaseDriverName() string {
 	return c.databaseDriverName
 }
 
+// DataSourceName returns the database DSN.
 func (c *config) DataSourceName() string {
 	return c.dataSourceName
 }

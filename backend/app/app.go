@@ -7,44 +7,56 @@ import (
 	"qso-log/backend/config"
 )
 
+// App is the external interface to the application. This holds some of the global resources and states.
 type App interface {
 	Config() config.Config
 	Log() *applog
 	Ctx() context.Context
+	SetCtx(ctx context.Context)
 }
 
+// app the actual internal data.
 type app struct {
-	config config.Config
-	log    *applog         // Logger for the whole application
-	ctx    context.Context // wails context
+	cfg config.Config
+	log *applog         // Logger for the whole application
+	ctx context.Context // wails context
 }
 
-var _app *app
+// _app is our internal variable.
+var _app App
 
-// Init initializes the application.
-func Init() (*app, error) {
+// Get returns a pointer to the application. The first time this is called the application is initialized.
+// Subsequent calls returns the pointer to the previously initialized application.
+//
+// The initialization process is: initialize configuration, initialize logging, initialize database and initialize i18n.
+// Before logging is initialized, errors are handle by panic() and not logged.
+func Get() App {
 	if _app != nil {
-		return _app, nil
+		return _app
 	}
 	_app = &app{
-		config: config.Get(),
+		cfg: config.Get(),
 	}
 
-	return _app, nil
+	return _app
 }
 
+// Config returns a pointer to the configuration object.
 func (a *app) Config() config.Config {
-	return a.config
+	return a.cfg
 }
 
+// Log returns a pointer to the logging object.
 func (a *app) Log() *applog {
 	return a.log
 }
 
+// Ctx return a context.Context from wails.
 func (a *app) Ctx() context.Context {
 	return a.ctx
 }
 
+// SetCtx sets the context.Context from wails.
 func (a *app) SetCtx(ctx context.Context) {
 	a.ctx = ctx
 }
