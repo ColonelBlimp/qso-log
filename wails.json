@@ -1,0 +1,15 @@
+{
+  "name": "Amateur Radio QSO Logger",
+  "outputfilename": "qsolog",
+  "assetdir": "./backend/wails/assets",
+  "frontend:install": "npm install",
+  "frontend:build": "npm run build",
+  "frontend:dev:watcher": "npm run dev",
+  "frontend:dev:serverUrl": "auto",
+  "wailsjsdir": "./frontend/src/lib",
+  "debounceMS": 1000,
+  "author": {
+    "name": "ColonelBlimp (7Q5MLV)",
+    "email": "ColonelBlimp@users.noreply.github.com"
+  }
+}
