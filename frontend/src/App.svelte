@@ -1,5 +1,5 @@
 <script>
-    import StackedLayout from "./components/StackedLayout.svelte";
+import StackedLayout from "./components/StackedLayout.svelte";
 </script>
 
 <StackedLayout/>
