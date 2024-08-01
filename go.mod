@@ -6,7 +6,7 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.22
 	github.com/spf13/viper v1.19.0
 	github.com/stretchr/testify v1.9.0
-	github.com/wailsapp/wails/v2 v2.9.1
+	github.com/wailsapp/wails/v2 v2.8.0
 )
 
 require (
